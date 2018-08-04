@@ -12,12 +12,16 @@ const route = require('../fixtures/route.json');
 const lineLayout = {
     'line-cap': 'round',
     'line-join': 'round'
-  };
+};
 
-  const linePaint = {
+const linePaint = {
     'line-color': '#4790E5',
     'line-width': 12
-  };
+};
+
+const Map = ReactMapboxGl({
+    accessToken: 'pk.eyJ1IjoidHJlbmdyaiIsImEiOiJjamtmNmQzM2owNTl2M3ZvYWUwbTc1eml1In0.tw1JvqFYa_St23kJl-aUEg'
+});
 
 class MyMap extends Component {
     static propTypes = {
@@ -26,9 +30,6 @@ class MyMap extends Component {
     };
 
     render() {
-        const Map = ReactMapboxGl({
-            accessToken: 'pk.eyJ1IjoidHJlbmdyaiIsImEiOiJjamtmNmQzM2owNTl2M3ZvYWUwbTc1eml1In0.tw1JvqFYa_St23kJl-aUEg'
-        });
         const mappedRoute = _.map(this.props.treeTable, (row) => {
             const data = JSON.parse(row.message);
 
@@ -41,7 +42,7 @@ class MyMap extends Component {
         return (
             <Map
                 style="mapbox://styles/trengrj/cjkfcle0d0ov12sn4g18r78ln"
-                center={mappedRoute[0]}
+                center={[ this.props.viewport.latitude, this.props.viewport.longitude ]}
                 containerStyle={{ height: '100%', width: '100%' }}
             >
                 <DrawControl />
@@ -68,7 +69,7 @@ class MyMap extends Component {
 
                             return (
                                 <Feature
-                                    key={row.id}
+                                    key={row.prim_key}
                                     coordinates={[ data.lat, data.lng ]}
                                 />
                             );

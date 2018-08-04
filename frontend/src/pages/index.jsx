@@ -52,11 +52,17 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeTreeRowId: null,
       treeTable: null, // to store the table rows from smart contract
       qrModalOpen: false,
       uploadModalOpen: false,
       loading: false,
     };
+  }
+
+  handleTreeRowClick = (row) => {
+    debugger;
+    this.setState({ activeTreeRowId: row.prim_key });
   }
 
   handleQrModalOpen = () => {
@@ -70,16 +76,16 @@ class Index extends Component {
       this.setState({ qrModalOpen: false });
   };
 
-    handleUploadModalOpen = () => {
-        this.setState({ uploadModalOpen: true });
-    };
+  handleUploadModalOpen = () => {
+      this.setState({ uploadModalOpen: true });
+  };
 
-    handleUploadModalClose = dna => {
-        if (dna !== undefined && dna !== null) {
-            this.search({dna});
-        }
-        this.setState({ uploadModalOpen: false });
-    };
+  handleUploadModalClose = dna => {
+      if (dna !== undefined && dna !== null) {
+          this.search({dna});
+      }
+      this.setState({ uploadModalOpen: false });
+  };
 
   // gets table data from the blockchain
   // and saves it into the component state: "treeTable"
@@ -96,38 +102,38 @@ class Index extends Component {
         });
     const rows = _.filter(result.rows, query);
 
-    this.setState({ treeTable: rows, loading: false });
+    this.setState({
+      treeTable: rows,
+      activeTreeRowId: _.get(_.first(rows), 'id'),
+      loading: false
+    });
   }
 
-  componentDidMount() {
-      //this.search();
-  }
 
   render() {
-    const treeTable = sortTreeTable(this.state.treeTable);
+    const treeTable = this.state.treeTable
+      ? sortTreeTable(this.state.treeTable)
+      : null;
     const { classes } = this.props;
 
-    // generate each tree as a card
-    const generateCard = (key, timestamp, id, user, dna, message) => (
-      <Card className={classes.card} key={key}>
-        <CardContent>
-          <Typography variant="headline" component="h2">
-            {user}
-          </Typography>
-          <Typography style={{fontSize:12}} color="textSecondary" gutterBottom>
-            {new Date(timestamp*1000).toString()}
-          </Typography>
-          <Typography component="pre">
-            {dna}
-          </Typography>
-          <Typography component="pre">
-            {message}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-    let treeCards = treeTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.prim_key, row.user, row.dna, row.message));
+    let viewport = {
+      width: 400,
+      height: 400,
+      latitude: 151.1956613,
+      longitude: -33.8726628,
+      zoom: 8
+    };
+
+    if (treeTable) {
+      const activeTreeRow = _.find(treeTable, { id: this.state.activeTreeRowId });
+      if (activeTreeRow) {
+        const activeTreeRowData = JSON.parse(activeTreeRow.message);
+        viewport = _.merge({}, viewport, {
+          latitude: activeTreeRowData.lat,
+          longitude: activeTreeRowData.lng,
+        })
+      }
+    }
 
     return (
       <div style={{height: '100%'}}>
@@ -151,14 +157,8 @@ class Index extends Component {
         <Grid container style={{height: '100%'}}>
             <Grid item xs={12} sm={8} style={{height: '100%'}}>
                 <MyMap
-                  treeTable={this.state.treeTable}
-                  viewport={{
-                    width: 400,
-                    height: 400,
-                    latitude: -33.8726628,
-                    longitude: 151.1956613,
-                    zoom: 8
-                  }}
+                  treeTable={treeTable || []}
+                  viewport={viewport}
                 />
             </Grid>
             <Grid item xs={12} sm={4} style={{height: '100%', overflow: 'auto', paddingTop: 64}}>
@@ -189,46 +189,54 @@ class Index extends Component {
                         </Grid>
                     </Grid>
                 </div>
-                {this.state.treeTable && this.state.treeTable.length > 0 && (
-                    <div>
-                        <Card className={classes.card}>
-                            <CardContent>
-                                <Typography variant="headline" component="h2">
-                                    {this.state.treeTable[0].user}
-                                </Typography>
-                                <Typography style={{fontSize:12}} color="textSecondary" gutterBottom>
-                                    {new Date(this.state.treeTable[0].timestamp*1000).toString()}
-                                </Typography>
-                                <Typography component="pre">
-                                    {this.state.treeTable[0].dna}
-                                </Typography>
-                                <Typography component="pre">
-                                    {this.state.treeTable[0].message}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                        <Timeline style={{marginTop: -20}}>
-                            {this.state.treeTable.map((row, k)=> (
-                                <TimelineEvent
-                                    key={k}
-                                    style={{fontSize: '12px'}}
-                                    className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68"
-                                    title={row.dna}
-                                    createdAt={new Date(row.timestamp*1000).toString()}
-                                    icon={<i className="material-icons md-18">textsms</i>}>
-                                <Typography>{row.message}</Typography>
-                            </TimelineEvent>))}
-                        </Timeline>
-                    </div>)}
-                {!this.state.treeTable && (<div style={{marginLeft:20}}>
-                    <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
-                    <p>Source: Argentinian Redwood</p>
-                    <p>Sustainability factor: Argentinian Redwood</p>
-                    <p>Grower: EOS Forestry Pty Ltd</p>
-                    <p>Auditor: Forest Green</p>
-                </div>)}
-                {this.state.treeTable && this.state.treeTable.length == 0 && (
-                    <SnackbarContent className={classes.margin} message="DNA not found" style={{marginLeft:20}}/>)}
+
+                {treeTable && treeTable.length > 0 && (
+                  <div>
+                      <Card className={classes.card}>
+                          <CardContent>
+                              <Typography variant="headline" component="h2">
+                                  {treeTable[0].user}
+                              </Typography>
+                              <Typography style={{fontSize:12}} color="textSecondary" gutterBottom>
+                                  {new Date(treeTable[0].timestamp*1000).toString()}
+                              </Typography>
+                              <Typography component="pre">
+                                  {treeTable[0].dna}
+                              </Typography>
+                              <Typography component="pre">
+                                  {treeTable[0].message}
+                              </Typography>
+                          </CardContent>
+                      </Card>
+                      <Timeline style={{marginTop: -20}}>
+                          {treeTable.map((row, k)=> (
+                              <TimelineEvent
+                                  key={k}
+                                  onClick={() => this.handleTreeRowClick(row)}
+                                  style={{fontSize: '12px'}}
+                                  className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68"
+                                  title={row.dna}
+                                  createdAt={new Date(row.timestamp*1000).toString()}
+                                  icon={<i className="material-icons md-18">textsms</i>}>
+                              <Typography>{row.message}</Typography>
+                          </TimelineEvent>))}
+                      </Timeline>
+                  </div>
+                )}
+
+                {!treeTable && (
+                  <div style={{marginLeft:20}}>
+                      <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
+                      <p>Source: Argentinian Redwood</p>
+                      <p>Sustainability factor: Argentinian Redwood</p>
+                      <p>Grower: EOS Forestry Pty Ltd</p>
+                      <p>Auditor: Forest Green</p>
+                  </div>
+                )}
+
+                {treeTable && treeTable.length == 0 && (
+                  <SnackbarContent className={classes.margin} message="DNA not found" style={{marginLeft:20}}/>
+                )}
             </Grid>
         </Grid>
       </div>
