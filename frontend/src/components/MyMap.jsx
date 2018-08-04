@@ -19,11 +19,11 @@ class MyMap extends Component {
 
     render() {
         const Map = ReactMapboxGl({
-            accessToken: 'pk.eyJ1IjoiYW5kcmVqZ3IiLCJhIjoiY2prZjBtMWl3MDNvZDNxbWxiczh3dXI5ZSJ9.eglXuQUrsKdWdhaECNOTTQ'
+            accessToken: 'pk.eyJ1IjoidG9tZmVsZGVyIiwiYSI6ImNqa2YwbWQxZTAycWgzd3BqMDg0b3R2bHEifQ.cR9TG3uNxHWFFtYa5MlktQ'
         });
         return (
             <Map
-                style="mapbox://styles/mapbox/streets-v9"
+                style="mapbox://styles/tomfelder/cjkf18k8j0ijs2rqloxce3a9w"
                 containerStyle={{ height: '100%', width: '100%' }}>
                     <DrawControl />
                 <Layer
