@@ -200,27 +200,6 @@ class Index extends Component {
     );
   }
 
-  // renderTreeRows(treeTable) {
-  //   const firstRow = _.first(treeTable);
-  //   const lastRow = _.last(treeTable);
-
-  //   return _.map(treeTable, row => {
-  //     if (
-  //       row === firstRow
-  //       || row === lastRow
-  //     ) {
-  //       return (
-  //         <TreeRowCard
-  //           classes={classes}
-  //           treeRow={treeTable[0]}
-  //         />
-  //       );
-  //     }
-
-  //     return
-  //   });
-  // }
-
   render() {
     const { treeTable } = this.state
     const { classes } = this.props;
