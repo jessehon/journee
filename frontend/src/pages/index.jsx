@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
+import * as _ from 'lodash';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -55,27 +56,36 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      treeTable: [] // to store the table rows from smart contract
+      treeTable: [], // to store the table rows from smart contract
+      loading: false,
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
+  // gets table data from the blockchain
+  // and saves it into the component state: "treeTable"
+  async search(query = {}) {
+    this.setState({ loading: true });
+
+    const result = await Eos({httpEndpoint: ENDPOINT})
+        .getTableRows({
+            "json": true,
+            "code": "treechainacc",   // contract who owns the table
+            "scope": "treechainacc",  // scope of the table
+            "table": "treestruct",    // name of the table as specified by the contract abi
+            "limit": 100,
+        });
+    const rows = _.filter(result.rows, query);
+
+    this.setState({ treeTable: rows, loading: false });
+  }
+
   async handleSearch(event) {
-      event.preventDefault();
+    event.preventDefault();
 
-      let dna = event.target.dna.value;
-
-      // TODO: pass dna
-      Eos({httpEndpoint: ENDPOINT})
-          .getTableRows({
-              "json": true,
-              "code": "treechainacc",   // contract who owns the table
-              "scope": "treechainacc",  // scope of the table
-              "table": "treestruct",    // name of the table as specified by the contract abi
-              "limit": 100,
-          })
-          .then(result => this.setState({treeTable: result.rows}));
+    const dna = event.target.dna.value;
+    this.search({ dna });
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -129,19 +139,8 @@ class Index extends Component {
     this.getTable();
   }
 
-  // gets table data from the blockchain
-  // and saves it into the component state: "treeTable"
   getTable() {
-    const eos = Eos({
-        httpEndpoint: ENDPOINT
-    });
-    eos.getTableRows({
-      "json": true,
-      "code": "treechainacc",   // contract who owns the table
-      "scope": "treechainacc",  // scope of the table
-      "table": "treestruct",    // name of the table as specified by the contract abi
-      "limit": 100,
-    }).then(result => this.setState({ treeTable: result.rows }));
+    this.search();
   }
 
   componentDidMount() {
