@@ -10,7 +10,7 @@ using namespace eosio;
 //     tree(string): the tree message
 //     timestamp(uint64): the store the last update block time
 // Public method:
-//   isnewuser => to check if the given account name has tree in table or not
+//   isnewdna => to check if the given dna has tree in table or not
 // Public actions:
 //   update => put the tree into the multi-index table and sign by the given account
 
@@ -21,7 +21,7 @@ class treechain : public eosio::contract {
       treetable treeobj(_self, _self);
       // get object by secordary key
       auto trees = treeobj.get_index<N(getbydna)>();
-      auto tree = trees.find(dna);
+      auto tree = trees.find(string_to_name(dna.c_str()));
 
       return tree == trees.end();
     }
@@ -36,14 +36,13 @@ class treechain : public eosio::contract {
 
       // primary key
       auto primary_key() const { return prim_key; }
-      // secondary key: user
-      account_name get_by_user() const { return user; }
-      std::string get_by_dna() const { return dna; }
+      // secondary key: dna
+      uint64_t get_by_dna() const { return string_to_name(dna.c_str()); }
     };
 
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< N(treestruct), treestruct,
-      indexed_by< N(getbydna), const_mem_fun<treestruct, account_name, &treestruct::get_by_dna> >
+      indexed_by< N(getbydna), const_mem_fun<treestruct, uint64_t, &treestruct::get_by_dna> >
       > treetable;
 
   public:
