@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
 import QrModalWrapped from '../components/QrModalWrapped';
 import * as _ from 'lodash';
+import {Timeline, TimelineEvent} from 'react-event-timeline';
 
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
@@ -169,6 +170,36 @@ class Index extends Component {
                   </Button>
                 </form>
               </Paper>
+                {this.state.treeTable.length > 0 && (
+                    <div>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Typography variant="headline" component="h2">
+                                    {this.state.treeTable[0].user}
+                                </Typography>
+                                <Typography style={{fontSize:12}} color="textSecondary" gutterBottom>
+                                    {new Date(this.state.treeTable[0].timestamp*1000).toString()}
+                                </Typography>
+                                <Typography component="pre">
+                                    {this.state.treeTable[0].dna}
+                                </Typography>
+                                <Typography component="pre">
+                                    {this.state.treeTable[0].message}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        <Timeline>
+                            {this.state.treeTable.map(row => (
+                                <TimelineEvent
+                                    style={{fontSize: '12px'}}
+                                    className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68"
+                                    title={row.dna}
+                                    createdAt={new Date(row.timestamp*1000).toString()}
+                                    icon={<i className="material-icons md-18">textsms</i>}>
+                                <Typography>{row.message}</Typography>
+                            </TimelineEvent>))}
+                        </Timeline>
+                    </div>)}
               {treeCards}
       <div>
         <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>

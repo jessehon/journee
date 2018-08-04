@@ -10,6 +10,7 @@
     "mapbox-gl": "^0.47.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-event-timeline": "^1.5.4",
     "react-mapbox-gl": "^3.8.0",
     "react-mapbox-gl-draw": "^1.0.4",
     "react-qr-reader": "^2.1.0",
