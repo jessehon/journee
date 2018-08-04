@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
+import QrModalWrapped from '../components/QrModalWrapped';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -55,11 +56,23 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      treeTable: [] // to store the table rows from smart contract
+      treeTable: [], // to store the table rows from smart contract
+        qrModalOpen: false
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
+
+  handleQrModalOpen = () => {
+      this.setState({ qrModalOpen: true });
+  };
+
+  handleQrModalClose = code => {
+      if (code !== null) {
+          alert(code);
+      }
+      this.setState({ qrModalOpen: false });
+  };
 
   async handleSearch(event) {
       event.preventDefault();
@@ -176,6 +189,11 @@ class Index extends Component {
 
     return (
       <div style={{height: '100%'}}>
+          <QrModalWrapped
+              open={this.state.qrModalOpen}
+              onClose={this.handleQrModalClose}
+              classes={classes}
+          />
         <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
@@ -189,6 +207,15 @@ class Index extends Component {
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.formButton}
+                    type="submit"
+                    onClick={this.handleQrModalOpen}>
+                    Scan Code
+                </Button>
+
                     <form onSubmit={this.handleSearch}>
                         <TextField
                             name="dna"
