@@ -16,7 +16,7 @@ const lineLayout = {
 
 const linePaint = {
     'line-color': '#4790E5',
-    'line-width': 12
+    'line-width': 8
 };
 
 const Map = ReactMapboxGl({
