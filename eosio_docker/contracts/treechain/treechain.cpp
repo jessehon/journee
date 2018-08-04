@@ -58,10 +58,10 @@ class treechain : public eosio::contract {
 
       // insert object
       obj.emplace( _self, [&]( auto& address ) {
-	address.prim_key    = obj.available_primary_key();
-	address.user        = _user;
-	address.dna        = _dna;
-	address.message        = _message;
+        address.prim_key    = obj.available_primary_key();
+        address.user        = _user;
+        address.dna         = _dna;
+        address.message     = _message;
         address.timestamp   = now();
       });
 
