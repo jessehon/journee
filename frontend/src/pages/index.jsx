@@ -5,17 +5,17 @@ import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
 import QrModalWrapped from '../components/QrModalWrapped';
 import UploadModalWrapped from '../components/UploadModalWrapped';
+import HomeModalWrapped from '../components/HomeModalWrapped';
 import TreeRowCard from '../components/TreeRowCard';
 import * as _ from 'lodash';
 import {Timeline, TimelineEvent} from 'react-event-timeline';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Collapse from '@material-ui/core/Collapse';
 
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
@@ -57,6 +57,7 @@ class Index extends Component {
       treeTable: null, // to store the table rows from smart contract
       qrModalOpen: false,
       uploadModalOpen: false,
+      homeModalOpen: true,
       loading: false,
     };
 
@@ -91,6 +92,15 @@ class Index extends Component {
       }
       this.setState({ uploadModalOpen: false });
   };
+
+
+    handleHomeModalOpen = () => {
+        this.setState({ homeModalOpen: true });
+    };
+
+    handleHomeModalClose = () => {
+        this.setState({homeModalOpen: false});
+    };
 
   // gets table data from the blockchain
   // and saves it into the component state: "treeTable"
@@ -208,6 +218,11 @@ class Index extends Component {
 
     return (
       <div style={{height: '100%'}}>
+          <HomeModalWrapped
+              open={this.state.homeModalOpen}
+              onClose={this.handleHomeModalClose}
+              classes={classes}
+          />
           <QrModalWrapped
               open={this.state.qrModalOpen}
               onClose={this.handleQrModalClose}
@@ -249,12 +264,13 @@ class Index extends Component {
                       {/** First item */}
                       <TreeRowCard
                         onClick={() => this.handleTreeRowClick(treeTable[0])}
+                        activeTreeRowId={this.state.activeTreeRowId}
                         classes={classes}
                         treeRow={treeTable[0]}
                       />
 
                       {/** Body items */}
-                      <Timeline style={{marginTop: -20}}>
+                      <Timeline style={{marginTop: -20, marginBottom: -20}}>
                           {
                             _.map(_.slice(treeTable, 1, -1), (row, k) => (
                               <TimelineEvent
@@ -265,7 +281,9 @@ class Index extends Component {
                                   title={row.dna}
                                   createdAt={new Date(row.timestamp*1000).toString()}
                                   icon={<i className="material-icons md-18">textsms</i>}>
-                                <Typography>{row.message}</Typography>
+                                  <Collapse in={this.state.activeTreeRowId === row.prim_key} collapsedHeight="5px">
+                                      <Typography style={{color: 'black'}}>{row.message}</Typography>
+                                  </Collapse>
                               </TimelineEvent>
                             ))
                           }
@@ -276,6 +294,7 @@ class Index extends Component {
                         treeTable.length >= 2 && (
                           <TreeRowCard
                             onClick={() => this.handleTreeRowClick(treeTable[treeTable.length - 1])}
+                            activeTreeRowId={this.state.activeTreeRowId}
                             classes={classes}
                             treeRow={treeTable[treeTable.length - 1]}
                           />
