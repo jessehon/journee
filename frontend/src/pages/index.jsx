@@ -65,7 +65,8 @@ class Index extends Component {
     // collect form data
     let account = event.target.account.value;
     let privateKey = event.target.privateKey.value;
-    let tree = event.target.tree.value;
+    let dna = event.target.dna.value;
+    let message = event.target.message.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
@@ -74,10 +75,11 @@ class Index extends Component {
     // define actionName and action according to event type
     switch (event.type) {
       case "submit":
-        actionName = "update";
+        actionName = "insert";
         actionData = {
           _user: account,
-          _tree: tree,
+          _dna: dna,
+          _message: message,
         };
         break;
       default:
@@ -124,7 +126,7 @@ class Index extends Component {
     const { classes } = this.props;
 
     // generate each tree as a card
-    const generateCard = (key, timestamp, user, tree) => (
+    const generateCard = (key, timestamp, user, dna, message) => (
       <Card className={classes.card} key={key}>
         <CardContent>
           <Typography variant="headline" component="h2">
@@ -134,13 +136,16 @@ class Index extends Component {
             {new Date(timestamp*1000).toString()}
           </Typography>
           <Typography component="pre">
-            {tree}
+            {dna}
+          </Typography>
+          <Typography component="pre">
+            {message}
           </Typography>
         </CardContent>
       </Card>
     );
     let treeCards = treeTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.tree));
+      generateCard(i, row.timestamp, row.user, row.dna, row.message));
 
     return (
       <div>
@@ -169,9 +174,16 @@ class Index extends Component {
               fullWidth
             />
             <TextField
-              name="tree"
+              name="dna"
               autoComplete="off"
-              label="Tree (Optional)"
+              label="DNA"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="message"
+              autoComplete="off"
+              label="Message (Optional)"
               margin="normal"
               multiline
               rows="10"
@@ -182,7 +194,7 @@ class Index extends Component {
               color="primary"
               className={classes.formButton}
               type="submit">
-              Add / Update tree
+              Add tree
             </Button>
           </form>
         </Paper>
