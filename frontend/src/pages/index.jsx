@@ -101,7 +101,7 @@ class Index extends Component {
     const { classes } = this.props;
 
     // generate each tree as a card
-    const generateCard = (key, timestamp, user, dna, message) => (
+    const generateCard = (key, timestamp, id, user, dna, message) => (
       <Card className={classes.card} key={key}>
         <CardContent>
           <Typography variant="headline" component="h2">
@@ -120,7 +120,7 @@ class Index extends Component {
       </Card>
     );
     let treeCards = treeTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.dna, row.message));
+      generateCard(i, row.timestamp, row.prim_key, row.user, row.dna, row.message));
 
     return (
       <div style={{height: '100%'}}>
@@ -132,13 +132,21 @@ class Index extends Component {
         <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
-             Journee 
+             Journee
             </Typography>
           </Toolbar>
         </AppBar>
         <Grid container style={{height: '100%', marginTop: '64px'}}>
             <Grid item xs={12} sm={8} style={{height: '100%'}}>
                 <MyMap
+                  treeTable={this.state.treeTable}
+                  viewport={{
+                    width: 400,
+                    height: 400,
+                    latitude: -33.8726628,
+                    longitude: 151.1956613,
+                    zoom: 8
+                  }}
                 />
             </Grid>
             <Grid item xs={12} sm={4}>

@@ -13,7 +13,7 @@ frontend/build
 **/*.wast
 
 #blockchain data
-**/data/*
+eosio_docker/data/*
 
 # misc
 .DS_Store

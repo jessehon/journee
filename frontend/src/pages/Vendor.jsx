@@ -59,6 +59,8 @@ class Vendor extends Component {
       treeTable: [], // to store the table rows from smart contract
       loading: false,
     };
+
+    this.seed = this.seed.bind(this);
     this.handleFormEvent = this.handleFormEvent.bind(this);
   }
 
@@ -80,6 +82,43 @@ class Vendor extends Component {
     this.setState({ treeTable: rows, loading: false });
   }
 
+  async seed() {
+    const trees = require('../fixtures/trees.json');
+
+    return await Promise.all(
+      _.map(trees, tree => {
+        return this.insertRow(tree.name, tree.private_key, tree.dna, tree.message);
+      })
+    );
+  }
+
+  async insertRow(account, privateKey, dna, message) {
+    // define actionName and action according to event type
+    const actionName = "insert";
+    const actionData = {
+      _user: account,
+      _dna: dna,
+      _message: message,
+    };
+
+    // eosjs function call: connect to the blockchain
+    const eos = Eos({
+        httpEndpoint: ENDPOINT,
+        keyProvider: privateKey
+    });
+    return await eos.transaction({
+      actions: [{
+        account: "treechainacc",
+        name: actionName,
+        authorization: [{
+          actor: account,
+          permission: 'active',
+        }],
+        data: actionData,
+      }],
+    });
+  }
+
   // generic function to handle form events (e.g. "submit" / "reset")
   // push transactions to the blockchain by using eosjs
   async handleFormEvent(event) {
@@ -92,40 +131,7 @@ class Vendor extends Component {
     let dna = event.target.dna.value;
     let message = event.target.message.value;
 
-    // prepare variables for the switch below to send transactions
-    let actionName = "";
-    let actionData = {};
-
-    // define actionName and action according to event type
-    switch (event.type) {
-      case "submit":
-        actionName = "insert";
-        actionData = {
-          _user: account,
-          _dna: dna,
-          _message: message,
-        };
-        break;
-      default:
-        return;
-    }
-
-    // eosjs function call: connect to the blockchain
-    const eos = Eos({
-        httpEndpoint: ENDPOINT,
-        keyProvider: privateKey
-    });
-    const result = await eos.transaction({
-      actions: [{
-        account: "treechainacc",
-        name: actionName,
-        authorization: [{
-          actor: account,
-          permission: 'active',
-        }],
-        data: actionData,
-      }],
-    });
+    const result = await this.insertRow(account, privateKey, dna, message);
 
     console.log(result);
     this.getTable();
@@ -144,11 +150,14 @@ class Vendor extends Component {
     const { classes } = this.props;
 
     // generate each tree as a card
-    const generateCard = (key, timestamp, user, dna, message) => (
+    const generateCard = (key, timestamp, id, user, dna, message) => (
       <Card className={classes.card} key={key}>
         <CardContent>
           <Typography variant="headline" component="h2">
             {user}
+          </Typography>
+          <Typography component="pre">
+            {id}
           </Typography>
           <Typography style={{fontSize:12}} color="textSecondary" gutterBottom>
             {new Date(timestamp*1000).toString()}
@@ -163,7 +172,7 @@ class Vendor extends Component {
       </Card>
     );
     let treeCards = treeTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.dna, row.message));
+      generateCard(i, row.timestamp, row.prim_key, row.user, row.dna, row.message));
 
     return (
       <div style={{height: '100%'}}>
@@ -176,6 +185,15 @@ class Vendor extends Component {
         </AppBar>
         {treeCards}
         <Paper className={classes.paper}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.formButton}
+            onClick={this.seed}
+            type="button">
+            Seed data
+          </Button>
+
           <form onSubmit={this.handleFormEvent}>
             <TextField
               name="account"
