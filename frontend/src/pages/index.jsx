@@ -49,7 +49,6 @@ class Index extends Component {
       qrModalOpen: false,
       loading: false,
     };
-    this.handleFormEvent = this.handleFormEvent.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
