@@ -13,8 +13,19 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
-import QrModalWrapped from '../components/QrModalWrapped';
 import * as _ from 'lodash';
+
+// NEVER store private keys in any source code in your real life development
+// This is for demo purposes only!
+const accounts = [
+  {"name":"useraaaaaaaa", "privateKey":"5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", "publicKey":"EOS6kYgMTCh1iqpq9XGNQbEi8Q6k5GujefN9DSs55dcjVyFAq7B6b"},
+  {"name":"useraaaaaaab", "privateKey":"5KLqT1UFxVnKRWkjvhFur4sECrPhciuUqsYRihc1p9rxhXQMZBg", "publicKey":"EOS78RuuHNgtmDv9jwAzhxZ9LmC6F295snyQ9eUDQ5YtVHJ1udE6p"},
+  {"name":"useraaaaaaac", "privateKey":"5K2jun7wohStgiCDSDYjk3eteRH1KaxUQsZTEmTGPH4GS9vVFb7", "publicKey":"EOS5yd9aufDv7MqMquGcQdD6Bfmv6umqSuh9ru3kheDBqbi6vtJ58"},
+  {"name":"useraaaaaaad", "privateKey":"5KNm1BgaopP9n5NqJDo9rbr49zJFWJTMJheLoLM5b7gjdhqAwCx", "publicKey":"EOS8LoJJUU3dhiFyJ5HmsMiAuNLGc6HMkxF4Etx6pxLRG7FU89x6X"},
+  {"name":"useraaaaaaae", "privateKey":"5KE2UNPCZX5QepKcLpLXVCLdAw7dBfJFJnuCHhXUf61hPRMtUZg", "publicKey":"EOS7XPiPuL3jbgpfS3FFmjtXK62Th9n2WZdvJb6XLygAghfx1W7Nb"},
+  {"name":"useraaaaaaaf", "privateKey":"5KaqYiQzKsXXXxVvrG8Q3ECZdQAj2hNcvCgGEubRvvq7CU3LySK", "publicKey":"EOS5btzHW33f9zbhkwjJTYsoyRzXUNstx1Da9X2nTzk8BQztxoP3H"},
+  {"name":"useraaaaaaag", "privateKey":"5KFyaxQW8L6uXFB6wSgC44EsAbzC7ideyhhQ68tiYfdKQp69xKo", "publicKey":"EOS8Du668rSVDE3KkmhwKkmAyxdBd73B51FKE7SjkKe5YERBULMrw"}
+];
 
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
@@ -39,29 +50,17 @@ const styles = theme => ({
 
 const ENDPOINT = 'http://172.16.96.83:8888';
 
-// Index component
-class Index extends Component {
+// Vendor component
+class Vendor extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       treeTable: [], // to store the table rows from smart contract
-      qrModalOpen: false,
       loading: false,
     };
-    this.handleSearch = this.handleSearch.bind(this);
+    this.handleFormEvent = this.handleFormEvent.bind(this);
   }
-
-  handleQrModalOpen = () => {
-      this.setState({ qrModalOpen: true });
-  };
-
-  handleQrModalClose = code => {
-      if (code !== null) {
-          alert(code);
-      }
-      this.setState({ qrModalOpen: false });
-  };
 
   // gets table data from the blockchain
   // and saves it into the component state: "treeTable"
@@ -81,11 +80,55 @@ class Index extends Component {
     this.setState({ treeTable: rows, loading: false });
   }
 
-  async handleSearch(event) {
+  // generic function to handle form events (e.g. "submit" / "reset")
+  // push transactions to the blockchain by using eosjs
+  async handleFormEvent(event) {
+    // stop default behaviour
     event.preventDefault();
 
-    const dna = event.target.dna.value;
-    this.search({ dna });
+    // collect form data
+    let account = event.target.account.value;
+    let privateKey = event.target.privateKey.value;
+    let dna = event.target.dna.value;
+    let message = event.target.message.value;
+
+    // prepare variables for the switch below to send transactions
+    let actionName = "";
+    let actionData = {};
+
+    // define actionName and action according to event type
+    switch (event.type) {
+      case "submit":
+        actionName = "insert";
+        actionData = {
+          _user: account,
+          _dna: dna,
+          _message: message,
+        };
+        break;
+      default:
+        return;
+    }
+
+    // eosjs function call: connect to the blockchain
+    const eos = Eos({
+        httpEndpoint: ENDPOINT,
+        keyProvider: privateKey
+    });
+    const result = await eos.transaction({
+      actions: [{
+        account: "treechainacc",
+        name: actionName,
+        authorization: [{
+          actor: account,
+          permission: 'active',
+        }],
+        data: actionData,
+      }],
+    });
+
+    console.log(result);
+    this.getTable();
   }
 
   getTable() {
@@ -124,69 +167,13 @@ class Index extends Component {
 
     return (
       <div style={{height: '100%'}}>
-          <QrModalWrapped
-              open={this.state.qrModalOpen}
-              onClose={this.handleQrModalClose}
-              classes={classes}
-          />
-        <AppBar position="fixed" color="default">
+        <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
-             Journee 
+              Tree Chain
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container style={{height: '100%', marginTop: '64px'}}>
-            <Grid item xs={12} sm={8} style={{height: '100%'}}>
-                <MyMap
-                />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Paper className={classes.paper}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.formButton}
-                  type="submit"
-                  onClick={this.handleQrModalOpen}>
-                  Scan Code
-                </Button>
-
-                <form onSubmit={this.handleSearch}>
-                  <TextField
-                      name="dna"
-                      autoComplete="off"
-                      label="DNA"
-                      margin="normal"
-                      fullWidth
-                  />
-                  <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.formButton}
-                      type="submit">
-                      Search
-                  </Button>
-                </form>
-              </Paper>
-              {treeCards}
-      <div>
-        <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
-        <p>Source: Argentinian Redwood</p>
-        <p>Sustainability factor: Argentinian Redwood</p>
-        <p>Grower: EOS Forestry Pty Ltd</p>
-        <p>Auditor: Forest Green</p>
-      </div>
-            </Grid>
-        </Grid>
-      </div>
-    );
-  }
-
-}
-
-/*
-
         {treeCards}
         <Paper className={classes.paper}>
           <form onSubmit={this.handleFormEvent}>
@@ -234,6 +221,10 @@ class Index extends Component {
           <br/><br/>
           accounts = { JSON.stringify(accounts, null, 2) }
         </pre>
- */
+      </div>
+    );
+  }
 
-export default withStyles(styles)(Index);
+}
+
+export default withStyles(styles)(Vendor);

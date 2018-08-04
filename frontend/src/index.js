@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Index from './pages/index';
+import Vendor from './pages/Vendor';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 
