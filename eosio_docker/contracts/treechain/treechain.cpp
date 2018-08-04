@@ -17,11 +17,11 @@ using namespace eosio;
 // Replace the contract class name when you start your own project
 class treechain : public eosio::contract {
   private:
-    bool isnewuser( account_name user ) {
+    bool isnewdna( std::string dna ) {
       treetable treeobj(_self, _self);
       // get object by secordary key
-      auto trees = treeobj.get_index<N(getbyuser)>();
-      auto tree = trees.find(user);
+      auto trees = treeobj.get_index<N(getbydna)>();
+      auto tree = trees.find(dna);
 
       return tree == trees.end();
     }
