@@ -41,6 +41,13 @@ const styles = theme => ({
 
 const ENDPOINT = 'http://172.16.96.83:8888';
 
+const sortTreeTable = (treeTable) => {
+  return _.sortBy(treeTable, (row) => {
+    const data = JSON.parse(row.message);
+    return data.index;
+  });
+}
+
 // Index component
 class Index extends Component {
 
@@ -103,7 +110,7 @@ class Index extends Component {
   }
 
   render() {
-    const { treeTable } = this.state;
+    const treeTable = sortTreeTable(this.state.treeTable);
     const { classes } = this.props;
 
     // generate each tree as a card
