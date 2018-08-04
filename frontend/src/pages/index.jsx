@@ -188,23 +188,25 @@ class Index extends Component {
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                    <form onSubmit={this.handleSearch}>
-                        <TextField
-                            name="dna"
-                            autoComplete="off"
-                            label="DNA"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.formButton}
-                            type="submit">
-                            Search
-                        </Button>
-                    </form>
-                {treeCards}
+              <Paper className={classes.paper}>
+                <form onSubmit={this.handleSearch}>
+                  <TextField
+                      name="dna"
+                      autoComplete="off"
+                      label="DNA"
+                      margin="normal"
+                      fullWidth
+                  />
+                  <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.formButton}
+                      type="submit">
+                      Search
+                  </Button>
+                </form>
+              </Paper>
+              {treeCards}
             </Grid>
         </Grid>
       </div>
