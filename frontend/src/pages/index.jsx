@@ -11,6 +11,8 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import MyMap from '../components/MyMap';
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
@@ -143,14 +145,28 @@ class Index extends Component {
       generateCard(i, row.timestamp, row.user, row.note));
 
     return (
-      <div>
-        <AppBar position="static" color="default">
+      <div style={{height: '100%'}}>
+        <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
               Note Chain
             </Typography>
           </Toolbar>
         </AppBar>
+        <Grid container style={{height: '100%'}}>
+            <Grid item xs={12} sm={8} style={{height: '100%'}}>
+                <MyMap
+                />
+            </Grid>
+        </Grid>
+      </div>
+    );
+  }
+
+}
+
+/*
+
         {noteCards}
         <Paper className={classes.paper}>
           <form onSubmit={this.handleFormEvent}>
@@ -191,10 +207,6 @@ class Index extends Component {
           <br/><br/>
           accounts = { JSON.stringify(accounts, null, 2) }
         </pre>
-      </div>
-    );
-  }
-
-}
+ */
 
 export default withStyles(styles)(Index);
