@@ -132,7 +132,7 @@ class Index extends Component {
         <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              Tree Chain
+             Journee 
             </Typography>
           </Toolbar>
         </AppBar>
@@ -169,6 +169,13 @@ class Index extends Component {
                 </form>
               </Paper>
               {treeCards}
+      <div>
+        <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
+        <p>Source: Argentinian Redwood</p>
+        <p>Sustainability factor: Argentinian Redwood</p>
+        <p>Grower: EOS Forestry Pty Ltd</p>
+        <p>Auditor: Forest Green</p>
+      </div>
             </Grid>
         </Grid>
       </div>
