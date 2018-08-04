@@ -87,8 +87,10 @@ class Index extends Component {
   };
 
   handleUploadModalClose = dna => {
-      if (dna !== undefined && dna !== null) {
-          this.search({dna});
+      if (!_.isEmpty(dna)) {
+          this.search({
+            dna: _.truncate(dna, {length: 11, omission: ''})
+          });
       }
       this.setState({ uploadModalOpen: false });
   };
