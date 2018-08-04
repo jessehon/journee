@@ -19,7 +19,7 @@ class MyMap extends Component {
 
     render() {
         const Map = ReactMapboxGl({
-            accessToken: 'pk.eyJ1IjoidG9tZmVsZGVyIiwiYSI6ImNqa2YwbWQxZTAycWgzd3BqMDg0b3R2bHEifQ.cR9TG3uNxHWFFtYa5MlktQ'
+            accessToken: 'pk.eyJ1IjoidHJlbmdyaiIsImEiOiJjamtmNmQzM2owNTl2M3ZvYWUwbTc1eml1In0.tw1JvqFYa_St23kJl-aUEg'
         });
 
         let stations = [
@@ -31,7 +31,7 @@ class MyMap extends Component {
 
         return (
             <Map
-                style="mapbox://styles/tomfelder/cjkf18k8j0ijs2rqloxce3a9w"
+                style="mapbox://styles/trengrj/cjkf6luhs0olq2spirzyrm9nj"
                 center={[151.1956613, -33.8726628]}
                 containerStyle={{ height: '100%', width: '100%' }}>
                     <DrawControl />
