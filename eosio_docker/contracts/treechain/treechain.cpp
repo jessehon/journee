@@ -36,7 +36,7 @@ class treechain : public eosio::contract {
 
       // primary key
       auto primary_key() const { return prim_key; }
-      // secondary key: dna
+      // secondary key: dna (max length of 12)
       uint64_t get_by_dna() const { return string_to_name(dna.c_str()); }
     };
 
