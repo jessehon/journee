@@ -11,7 +11,7 @@ else
 fi
 
 echo "=== run docker container from the eosio/eos-dev image ==="
-docker run --rm --name eosio_notechain_container -d \
+docker run --rm --name eosio_treechain_container -d \
 -p 8888:8888 -p 9876:9876 \
 -v "$(pwd)"/contracts:/opt/eosio/bin/contracts \
 -v "$(pwd)"/scripts:/opt/eosio/bin/scripts \
@@ -20,6 +20,6 @@ docker run --rm --name eosio_notechain_container -d \
 
 if [ "$1" != "--nolog" ]
 then
-    echo "=== follow eosio_notechain_container logs ==="
-    docker logs eosio_notechain_container --follow
+    echo "=== follow eosio_treechain_container logs ==="
+    docker logs eosio_treechain_container --follow
 fi
