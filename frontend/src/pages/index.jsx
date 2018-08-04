@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
-
 // material-ui dependencies
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
@@ -17,6 +14,7 @@ import QrModalWrapped from '../components/QrModalWrapped';
 import UploadModalWrapped from '../components/UploadModalWrapped';
 import * as _ from 'lodash';
 import {Timeline, TimelineEvent} from 'react-event-timeline';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
@@ -54,7 +52,7 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      treeTable: [], // to store the table rows from smart contract
+      treeTable: null, // to store the table rows from smart contract
       qrModalOpen: false,
       uploadModalOpen: false,
       loading: false,
@@ -101,12 +99,8 @@ class Index extends Component {
     this.setState({ treeTable: rows, loading: false });
   }
 
-  getTable() {
-    this.search();
-  }
-
   componentDidMount() {
-    this.getTable();
+      //this.search();
   }
 
   render() {
@@ -154,7 +148,7 @@ class Index extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container style={{height: '100%', marginTop: '64px'}}>
+        <Grid container style={{height: '100%'}}>
             <Grid item xs={12} sm={8} style={{height: '100%'}}>
                 <MyMap
                   treeTable={this.state.treeTable}
@@ -167,7 +161,7 @@ class Index extends Component {
                   }}
                 />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={4} style={{height: '100%', overflow: 'auto', paddingTop: 64}}>
                 <div style={{padding:20}}>
                     <Grid container>
                         <Grid item xs={5}>
@@ -195,7 +189,7 @@ class Index extends Component {
                         </Grid>
                     </Grid>
                 </div>
-                {this.state.treeTable.length > 0 && (
+                {this.state.treeTable && this.state.treeTable.length > 0 && (
                     <div>
                         <Card className={classes.card}>
                             <CardContent>
@@ -214,8 +208,9 @@ class Index extends Component {
                             </CardContent>
                         </Card>
                         <Timeline style={{marginTop: -20}}>
-                            {this.state.treeTable.map(row => (
+                            {this.state.treeTable.map((row, k)=> (
                                 <TimelineEvent
+                                    key={k}
                                     style={{fontSize: '12px'}}
                                     className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68"
                                     title={row.dna}
@@ -225,14 +220,15 @@ class Index extends Component {
                             </TimelineEvent>))}
                         </Timeline>
                     </div>)}
-              {treeCards}
-      <div>
-        <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
-        <p>Source: Argentinian Redwood</p>
-        <p>Sustainability factor: Argentinian Redwood</p>
-        <p>Grower: EOS Forestry Pty Ltd</p>
-        <p>Auditor: Forest Green</p>
-      </div>
+                {!this.state.treeTable && (<div style={{marginLeft:20}}>
+                    <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png"/>
+                    <p>Source: Argentinian Redwood</p>
+                    <p>Sustainability factor: Argentinian Redwood</p>
+                    <p>Grower: EOS Forestry Pty Ltd</p>
+                    <p>Auditor: Forest Green</p>
+                </div>)}
+                {this.state.treeTable && this.state.treeTable.length == 0 && (
+                    <SnackbarContent className={classes.margin} message="DNA not found" style={{marginLeft:20}}/>)}
             </Grid>
         </Grid>
       </div>

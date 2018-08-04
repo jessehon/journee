@@ -32,9 +32,16 @@ function getModalStyle() {
 class UploadModal extends React.Component {
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {
+            value: 'a13r98has2r'
+        };
 
-        this.handleUpload = this.handleUpload.bind(this)
+        this.handleUpload = this.handleUpload.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
     }
 
     handleClose = () => {
@@ -66,6 +73,8 @@ class UploadModal extends React.Component {
                         autoComplete="off"
                         label="DNA"
                         margin="normal"
+                        value={this.state.value}
+                        onChange={this.handleChange}
                         fullWidth
                     />
                     <Button
