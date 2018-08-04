@@ -53,7 +53,7 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [] // to store the table rows from smart contract
+      treeTable: [] // to store the table rows from smart contract
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
   }
@@ -67,7 +67,8 @@ class Index extends Component {
     // collect form data
     let account = event.target.account.value;
     let privateKey = event.target.privateKey.value;
-    let note = event.target.note.value;
+    let dna = event.target.dna.value;
+    let message = event.target.message.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
@@ -76,10 +77,11 @@ class Index extends Component {
     // define actionName and action according to event type
     switch (event.type) {
       case "submit":
-        actionName = "update";
+        actionName = "insert";
         actionData = {
           _user: account,
-          _note: note,
+          _dna: dna,
+          _message: message,
         };
         break;
       default:
@@ -90,7 +92,7 @@ class Index extends Component {
     const eos = Eos({keyProvider: privateKey});
     const result = await eos.transaction({
       actions: [{
-        account: "notechainacc",
+        account: "treechainacc",
         name: actionName,
         authorization: [{
           actor: account,
@@ -105,16 +107,16 @@ class Index extends Component {
   }
 
   // gets table data from the blockchain
-  // and saves it into the component state: "noteTable"
+  // and saves it into the component state: "treeTable"
   getTable() {
     const eos = Eos();
     eos.getTableRows({
       "json": true,
-      "code": "notechainacc",   // contract who owns the table
-      "scope": "notechainacc",  // scope of the table
-      "table": "notestruct",    // name of the table as specified by the contract abi
+      "code": "treechainacc",   // contract who owns the table
+      "scope": "treechainacc",  // scope of the table
+      "table": "treestruct",    // name of the table as specified by the contract abi
       "limit": 100,
-    }).then(result => this.setState({ noteTable: result.rows }));
+    }).then(result => this.setState({ treeTable: result.rows }));
   }
 
   componentDidMount() {
@@ -122,11 +124,11 @@ class Index extends Component {
   }
 
   render() {
-    const { noteTable } = this.state;
+    const { treeTable } = this.state;
     const { classes } = this.props;
 
-    // generate each note as a card
-    const generateCard = (key, timestamp, user, note) => (
+    // generate each tree as a card
+    const generateCard = (key, timestamp, user, dna, message) => (
       <Card className={classes.card} key={key}>
         <CardContent>
           <Typography variant="headline" component="h2">
@@ -136,20 +138,23 @@ class Index extends Component {
             {new Date(timestamp*1000).toString()}
           </Typography>
           <Typography component="pre">
-            {note}
+            {dna}
+          </Typography>
+          <Typography component="pre">
+            {message}
           </Typography>
         </CardContent>
       </Card>
     );
-    let noteCards = noteTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.note));
+    let treeCards = treeTable.map((row, i) =>
+      generateCard(i, row.timestamp, row.user, row.dna, row.message));
 
     return (
       <div style={{height: '100%'}}>
         <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              Note Chain
+              Tree Chain
             </Typography>
           </Toolbar>
         </AppBar>
@@ -167,7 +172,7 @@ class Index extends Component {
 
 /*
 
-        {noteCards}
+        {treeCards}
         <Paper className={classes.paper}>
           <form onSubmit={this.handleFormEvent}>
             <TextField
@@ -185,9 +190,16 @@ class Index extends Component {
               fullWidth
             />
             <TextField
-              name="note"
+              name="dna"
               autoComplete="off"
-              label="Note (Optional)"
+              label="DNA"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="message"
+              autoComplete="off"
+              label="Message (Optional)"
               margin="normal"
               multiline
               rows="10"
@@ -198,12 +210,12 @@ class Index extends Component {
               color="primary"
               className={classes.formButton}
               type="submit">
-              Add / Update note
+              Add tree
             </Button>
           </form>
         </Paper>
         <pre className={classes.pre}>
-          Below is a list of pre-created accounts information for add/update note:
+          Below is a list of pre-created accounts information for add/update tree:
           <br/><br/>
           accounts = { JSON.stringify(accounts, null, 2) }
         </pre>
