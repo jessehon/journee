@@ -13,7 +13,7 @@ class MyMap extends Component {
             height: 400,
             latitude: -33.8726628,
             longitude: 151.1956613,
-            zoom: 8
+            zoom: 7
         }
     };
 
@@ -31,7 +31,7 @@ class MyMap extends Component {
 
         return (
             <Map
-                style="mapbox://styles/trengrj/cjkf6luhs0olq2spirzyrm9nj"
+                style="mapbox://styles/trengrj/cjkfcle0d0ov12sn4g18r78ln"
                 center={[151.1956613, -33.8726628]}
                 containerStyle={{ height: '100%', width: '100%' }}>
                     <DrawControl />
