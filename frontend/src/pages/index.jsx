@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MyMap from '../components/MyMap';
 import QrModalWrapped from '../components/QrModalWrapped';
+import UploadModalWrapped from '../components/UploadModalWrapped';
 import * as _ from 'lodash';
 import {Timeline, TimelineEvent} from 'react-event-timeline';
 
@@ -48,9 +49,9 @@ class Index extends Component {
     this.state = {
       treeTable: [], // to store the table rows from smart contract
       qrModalOpen: false,
+      uploadModalOpen: false,
       loading: false,
     };
-    this.handleSearch = this.handleSearch.bind(this);
   }
 
   handleQrModalOpen = () => {
@@ -63,6 +64,17 @@ class Index extends Component {
       }
       this.setState({ qrModalOpen: false });
   };
+
+    handleUploadModalOpen = () => {
+        this.setState({ uploadModalOpen: true });
+    };
+
+    handleUploadModalClose = dna => {
+        if (dna !== undefined && dna !== null) {
+            this.search({dna});
+        }
+        this.setState({ uploadModalOpen: false });
+    };
 
   // gets table data from the blockchain
   // and saves it into the component state: "treeTable"
@@ -80,13 +92,6 @@ class Index extends Component {
     const rows = _.filter(result.rows, query);
 
     this.setState({ treeTable: rows, loading: false });
-  }
-
-  async handleSearch(event) {
-    event.preventDefault();
-
-    const dna = event.target.dna.value;
-    this.search({ dna });
   }
 
   getTable() {
@@ -130,6 +135,11 @@ class Index extends Component {
               onClose={this.handleQrModalClose}
               classes={classes}
           />
+          <UploadModalWrapped
+              open={this.state.uploadModalOpen}
+              onClose={this.handleUploadModalClose}
+              classes={classes}
+          />
         <AppBar position="fixed" color="default">
           <Toolbar>
             <Typography variant="title" color="inherit">
@@ -151,33 +161,33 @@ class Index extends Component {
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Paper className={classes.paper}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.formButton}
-                  type="submit"
-                  onClick={this.handleQrModalOpen}>
-                  Scan Code
-                </Button>
-
-                <form onSubmit={this.handleSearch}>
-                  <TextField
-                      name="dna"
-                      autoComplete="off"
-                      label="DNA"
-                      margin="normal"
-                      fullWidth
-                  />
-                  <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.formButton}
-                      type="submit">
-                      Search
-                  </Button>
-                </form>
-              </Paper>
+                <div style={{padding:20}}>
+                    <Grid container>
+                        <Grid item xs={5}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.formButton}
+                                type="submit"
+                                style={{display:'block'}}
+                                onClick={this.handleQrModalOpen}>
+                                Scan Code
+                            </Button>
+                        </Grid>
+                        <Grid item xs={2} style={{textAlign: 'center', paddingTop: 15}}>or</Grid>
+                        <Grid item xs={5}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.formButton}
+                                type="submit"
+                                style={{display:'block'}}
+                                onClick={this.handleUploadModalOpen}>
+                                Upload DNA
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </div>
                 {this.state.treeTable.length > 0 && (
                     <div>
                         <Card className={classes.card}>
@@ -196,7 +206,7 @@ class Index extends Component {
                                 </Typography>
                             </CardContent>
                         </Card>
-                        <Timeline>
+                        <Timeline style={{marginTop: -20}}>
                             {this.state.treeTable.map(row => (
                                 <TimelineEvent
                                     style={{fontSize: '12px'}}
