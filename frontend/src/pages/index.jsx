@@ -47,15 +47,35 @@ const styles = theme => ({
   },
 });
 
+const ENDPOINT = 'http://172.16.96.83:8888';
+
 // Index component
 class Index extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       treeTable: [] // to store the table rows from smart contract
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  async handleSearch(event) {
+      event.preventDefault();
+
+      let dna = event.target.dna.value;
+
+      // TODO: pass dna
+      Eos({httpEndpoint: ENDPOINT})
+          .getTableRows({
+              "json": true,
+              "code": "treechainacc",   // contract who owns the table
+              "scope": "treechainacc",  // scope of the table
+              "table": "treestruct",    // name of the table as specified by the contract abi
+              "limit": 100,
+          })
+          .then(result => this.setState({treeTable: result.rows}));
   }
 
   // generic function to handle form events (e.g. "submit" / "reset")
@@ -89,7 +109,10 @@ class Index extends Component {
     }
 
     // eosjs function call: connect to the blockchain
-    const eos = Eos({keyProvider: privateKey});
+    const eos = Eos({
+        httpEndpoint: ENDPOINT,
+        keyProvider: privateKey
+    });
     const result = await eos.transaction({
       actions: [{
         account: "treechainacc",
@@ -109,7 +132,9 @@ class Index extends Component {
   // gets table data from the blockchain
   // and saves it into the component state: "treeTable"
   getTable() {
-    const eos = Eos();
+    const eos = Eos({
+        httpEndpoint: ENDPOINT
+    });
     eos.getTableRows({
       "json": true,
       "code": "treechainacc",   // contract who owns the table
@@ -158,10 +183,29 @@ class Index extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container style={{height: '100%'}}>
+        <Grid container style={{height: '100%', marginTop: '64px'}}>
             <Grid item xs={12} sm={8} style={{height: '100%'}}>
                 <MyMap
                 />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                    <form onSubmit={this.handleSearch}>
+                        <TextField
+                            name="dna"
+                            autoComplete="off"
+                            label="DNA"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.formButton}
+                            type="submit">
+                            Search
+                        </Button>
+                    </form>
+                {treeCards}
             </Grid>
         </Grid>
       </div>
