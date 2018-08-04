@@ -50,7 +50,7 @@ class treechain : public eosio::contract {
     using contract::contract;
 
     /// @abi action
-    void insert( account_name _user, std::string$ _dna, std::string& _message ) {
+    void insert( account_name _user, std::string& _dna, std::string& _message ) {
       // to sign the action with the given account
       require_auth( _user );
 
