@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
 import DrawControl from 'react-mapbox-gl-draw';
 import PropTypes from 'prop-types';
 import * as _ from 'lodash';
@@ -32,7 +32,6 @@ class MyMap extends Component {
     render() {
         const mappedRoute = _.map(this.props.treeTable, (row) => {
             const data = JSON.parse(row.message);
-
             return [
                 data.lat,
                 data.lng
@@ -45,17 +44,10 @@ class MyMap extends Component {
                 center={[ this.props.viewport.latitude, this.props.viewport.longitude ]}
                 containerStyle={{ height: '100%', width: '100%' }}
             >
-                <DrawControl />
+                <ZoomControl />
 
                 <Layer type="line" layout={lineLayout} paint={linePaint}>
                     <Feature coordinates={mappedRoute} />
-                </Layer>
-
-                <Layer
-                    type="symbol"
-                    id="marker"
-                    layout={{ "icon-image": "marker-15" }}>
-                    <Feature coordinates={[151.1956613, -33.8726628]}/>
                 </Layer>
 
                 <Layer
