@@ -142,15 +142,16 @@ class Index extends Component {
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.formButton}
-                    type="submit"
-                    onClick={this.handleQrModalOpen}>
-                    Scan Code
-                </Button>
               <Paper className={classes.paper}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.formButton}
+                  type="submit"
+                  onClick={this.handleQrModalOpen}>
+                  Scan Code
+                </Button>
+
                 <form onSubmit={this.handleSearch}>
                   <TextField
                       name="dna"
