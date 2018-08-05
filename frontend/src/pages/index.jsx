@@ -222,7 +222,7 @@ class Index extends Component {
         <div style={{paddingLeft: 20}} className="intro">
             <h4>Things to know</h4>
               <div style={{ marginLeft: 20 }} className="things">
-                  <h3><span className="yellow">TRACABILITY</span></h3>
+                  <h3><span className="yellow">TRACEABILITY</span></h3>
                   <h3>TRANSPARENCY</h3>
                   <h3><span className="blue">TRUSTWORTHY</span></h3>
               </div>
