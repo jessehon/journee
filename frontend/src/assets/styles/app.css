@@ -104,15 +104,15 @@ header .slogan {
 }
 
 .home h3 {
-    color: #4B92E2;
-    font-family: Roboto;
-    font-size: 64px;
+    color: #FECF2F;
+    font-size: 24px;
     font-style: italic;
     font-weight: 500;
     letter-spacing: 2.06px;
-    line-height: 84px;
+    line-height: 32px;
+    text-align: right;
     margin-bottom: 0;
-    margin-top: 0.2em;
+    margin-top: 1.5em;
 }
 
 .yellow {
@@ -125,6 +125,10 @@ header .slogan {
 
 .green {
     color: #78BA43 !important;
+}
+
+.pink {
+    color: #E70883 !important;
 }
 
 .things {
