@@ -19,6 +19,7 @@ const findSupplierProfileByName = (name) => {
 const TreeDestinationCard = (props) => {
   const { classes, treeRow, onClick, activeTreeRowId, title } = props;
   const treeProfile = findTreeProfileByDna(treeRow.dna);
+  const supplierProfile = findSupplierProfileByName(treeRow.user);
   const treeRowData = JSON.parse(treeRow.message);
 
   return (
@@ -38,16 +39,7 @@ const TreeDestinationCard = (props) => {
                     <img src={treeProfile.image_url} width={175} style={{float: 'left', marginLeft: -24, marginRight: 24}}/>
                     <div>
                         <Typography component="p">
-                            DNA: ****************
-                        </Typography>
-                        <Typography component="p">
-                            Certificate: {treeProfile.certificate}
-                        </Typography>
-                        <Typography component="p">
-                            Total CO2: {treeProfile.co2_kg}KG
-                        </Typography>
-                        <Typography component="p">
-                            Weight: {treeProfile.weight_kg}KG
+                            {supplierProfile.description}
                         </Typography>
                     </div>
                 </div>
