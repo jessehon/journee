@@ -13,6 +13,7 @@ import UploadModalWrapped from '../components/UploadModalWrapped';
 import HomeModalWrapped from '../components/HomeModalWrapped';
 import TreeRowCard from '../components/TreeRowCard';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import {Timeline, TimelineEvent} from 'react-event-timeline';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Collapse from '@material-ui/core/Collapse';
@@ -154,7 +155,7 @@ class Index extends Component {
         height: 400,
         latitude: 151.1956613,
         longitude: -33.8726628,
-        zoom: 8
+        zoom: 0
       };
     }
 
@@ -210,6 +211,10 @@ class Index extends Component {
         style={{ marginLeft: 20 }}
       />
     );
+  }
+
+  getRowData = (row) => {
+    return JSON.parse(row.message);
   }
 
   renderWhenMissing() {
@@ -299,22 +304,24 @@ class Index extends Component {
                                   onClick={() => this.handleTreeRowClick(row)}
                                   style={{fontSize: '12px'}}
                                   className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68 timeline-item"
-                                  title={row.dna}
+                                  title={moment(row.timestamp).fromNow()}
                                   titleStyle={{color: "#4B92E2", paddingTop: 8}}
                                   contentStyle={{ width: 'auto', backgroundColor: "#04394c", color: "#fff", borderRadius: 5, boxShadow: '0 2px 4px 0 rgba(0,0,0,0.5)', cursor: 'pointer'}}
                                   bubbleStyle={{backgroundColor: "#ffd000", borderColor: '#ffd000'}}
                                   icon={<i className="material-icons md-18" style={{color: '#ffd000'}}>textsms</i>}>
                                   <Collapse in={this.state.activeTreeRowId === row.prim_key} collapsedHeight="40px">
-                                      <Typography className="status">{row.message}</Typography>
-                                      <Typography className="location">Location</Typography>
+                                      <Typography className="status">{this.getRowData(row).description}</Typography>
+                                      <Typography className="location">{this.getRowData(row).location_name}</Typography>
                                       <div style={{marginTop: 15}}>
                                           <img src="img/chair.png" width={175} style={{float: 'left', marginRight: '1em', marginBottom: '0.5em'}}/>
                                           <div>
-                                              <Typography>
-                                                  some<br />
-                                                  extra<br />
-                                                  data
-                                              </Typography>
+                                            <Typography component="p">
+                                                Supplier: <br />{this.findSupplierProfileByName(row.user).title}<br />
+                                            </Typography>
+                                            <br />
+                                            <Typography component="p">
+                                                {this.findSupplierProfileByName(row.user).description}<br />
+                                            </Typography>
                                           </div>
                                       </div>
                                   </Collapse>

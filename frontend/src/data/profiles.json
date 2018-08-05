@@ -2,15 +2,21 @@
   "tree_profiles": [
     {
       "dna": "a13r98has2r",
-      "image_url": "https://placehold.it/300x300",
+      "image_url": "/img/chair.png",
       "title": "Journey of a Uni-Ka chair",
-      "description": "From Indonesia to Australia in 2 years"
+      "description": "From Indonesia to Australia in 2 years",
+      "certificate": "GreenTagCertTM",
+      "co2_kg": 180,
+      "weight_kg": 6
     },
     {
       "dna": "djnasdjknaj",
-      "image_url": "https://placehold.it/300x300",
+      "image_url": "/img/chair.png",
       "title": "Journey of a Uni-Ka chair",
-      "description": "From Indonesia to Australia in 2 years"
+      "description": "From Indonesia to Australia in 2 years",
+      "certificate": "GreenTagCertTM",
+      "co2_kg": 180,
+      "weight_kg": 6
     }
   ],
   "supplier_profiles": [
@@ -27,7 +33,7 @@
     {
       "name": "useraaaaaaac",
       "title": "Mann River Timbers Pty Ltd",
-      "description": "Mann River Timbers Pty Ltd is a privately held company in Clarenza, NSW and is a Single Location business. Categorized under Logging Companies. Current estimates show this company has an annual revenue of 347072 and employs a staff of approximately 3."
+      "description": "Mann River Timbers Pty Ltd is a privately held company in Clarenza, NSW and is a Single Location business. Categorized under Logging Companies."
     },
     {
       "name": "useraaaaaaad",

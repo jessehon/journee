@@ -41,6 +41,7 @@ class MyMap extends Component {
         return (
             <Map
                 style="mapbox://styles/trengrj/cjkfcle0d0ov12sn4g18r78ln"
+                zoom={[this.props.viewport.zoom]}
                 center={[ this.props.viewport.latitude, this.props.viewport.longitude ]}
                 containerStyle={{ height: '100%', width: '100%' }}
             >

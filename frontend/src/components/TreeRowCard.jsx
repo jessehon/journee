@@ -4,9 +4,22 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import CardMedia from "@material-ui/core/es/CardMedia";
+import * as _ from 'lodash';
+
+const profiles = require('../data/profiles.json');
+
+const findTreeProfileByDna = (dna) => {
+  return _.find(profiles.tree_profiles, { dna });
+}
+
+const findSupplierProfileByName = (name) => {
+  return _.find(profiles.supplier_profiles, { name });
+}
 
 const TreeRowCard = (props) => {
   const { classes, treeRow, onClick, activeTreeRowId } = props;
+  const treeProfile = findTreeProfileByDna(treeRow.dna);
+  const treeRowData = JSON.parse(treeRow.message);
 
   return (
     <Card
@@ -16,19 +29,31 @@ const TreeRowCard = (props) => {
         <Collapse in={activeTreeRowId === treeRow.prim_key} collapsedHeight="75px">
             <CardContent>
                 <Typography variant="headline" component="h2">
-                    {treeRow.user}
+                    {treeProfile.title}
                 </Typography>
                 <Typography style={{fontSize: 12}} color="textSecondary" gutterBottom>
-                    {new Date(treeRow.timestamp * 1000).toString()}
+                    {treeProfile.description}
                 </Typography>
                 <div style={{marginTop: 15}} className="more">
                     <img src="img/chair.png" width={175} style={{float: 'left', marginLeft: -24, marginRight: 24}}/>
                     <div>
                         <Typography component="p">
-                            {treeRow.dna}
+                            {treeRowData.description}
                         </Typography>
                         <Typography component="p">
-                            {treeRow.message}
+                            {treeRowData.location_name}
+                        </Typography>
+                        <Typography component="p">
+                            DNA: ****************
+                        </Typography>
+                        <Typography component="p">
+                            Certificate: {treeProfile.certificate}
+                        </Typography>
+                        <Typography component="p">
+                            Total CO2: {treeProfile.co2_kg}KG
+                        </Typography>
+                        <Typography component="p">
+                            Weight: {treeProfile.weight_kg}KG
                         </Typography>
                     </div>
                 </div>
