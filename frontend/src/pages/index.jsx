@@ -304,7 +304,7 @@ class Index extends Component {
                                   onClick={() => this.handleTreeRowClick(row)}
                                   style={{fontSize: '12px'}}
                                   className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68 timeline-item"
-                                  title={moment(row.timestamp).fromNow()}
+                                  title={row.from_now}
                                   titleStyle={{color: "#4B92E2", paddingTop: 8}}
                                   contentStyle={{ width: 'auto', backgroundColor: "#04394c", color: "#fff", borderRadius: 5, boxShadow: '0 2px 4px 0 rgba(0,0,0,0.5)', cursor: 'pointer'}}
                                   bubbleStyle={{backgroundColor: "#ffd000", borderColor: '#ffd000'}}
