@@ -12,7 +12,7 @@ import QrModalWrapped from '../components/QrModalWrapped';
 import UploadModalWrapped from '../components/UploadModalWrapped';
 import HomeModalWrapped from '../components/HomeModalWrapped';
 import TreeTitleCard from '../components/TreeTitleCard';
-import TreeRowCard from '../components/TreeRowCard';
+import TreeDestinationCard from '../components/TreeDestinationCard';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import {Timeline, TimelineEvent} from 'react-event-timeline';
@@ -335,7 +335,7 @@ class Index extends Component {
                       {/** Last item */}
                       {
                         treeTable.length >= 2 && (
-                          <TreeRowCard
+                          <TreeDestinationCard
                             title={`Destination`}
                             onClick={() => this.handleTreeRowClick(treeTable[treeTable.length - 1])}
                             activeTreeRowId={this.state.activeTreeRowId}

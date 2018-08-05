@@ -16,7 +16,7 @@ const findSupplierProfileByName = (name) => {
   return _.find(profiles.supplier_profiles, { name });
 }
 
-const TreeRowCard = (props) => {
+const TreeDestinationCard = (props) => {
   const { classes, treeProfile, title } = props;
 
   return (
@@ -51,4 +51,4 @@ const TreeRowCard = (props) => {
   );
 };
 
-export default TreeRowCard;
+export default TreeDestinationCard;
