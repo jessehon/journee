@@ -17,6 +17,8 @@ import {Timeline, TimelineEvent} from 'react-event-timeline';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Collapse from '@material-ui/core/Collapse';
 
+const profiles = require('../data/data.json');
+
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
   card: {
@@ -133,6 +135,14 @@ class Index extends Component {
     }
 
     return _.find(this.state.treeTable, { prim_key: this.state.activeTreeRowId });
+  }
+
+  findTreeProfileByDna = (dna) => {
+    return _.find(profiles.tree_profiles, { dna });
+  }
+
+  findSupplierProfileByName = (name) => {
+    return _.find(profiles.supplier_profiles, { name });
   }
 
   getViewport = () => {

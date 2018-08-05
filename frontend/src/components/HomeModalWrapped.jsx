@@ -15,7 +15,7 @@ function getModalStyle() {
     const left = 50;
 
     const width = 1200;
-    const height = 600;
+    const height = 640;
 
     return {
         position: 'absolute',
