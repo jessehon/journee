@@ -164,6 +164,7 @@ class Index extends Component {
           <Grid container>
               <Grid item xs={5}>
                   <Button
+                      size="large"
                       variant="contained"
                       color="primary"
                       className={this.props.classes.formButton}
@@ -176,6 +177,7 @@ class Index extends Component {
               <Grid item xs={2} style={{textAlign: 'center', paddingTop: 15}}>or</Grid>
               <Grid item xs={5}>
                   <Button
+                      size="large"
                       variant="contained"
                       color="primary"
                       className={this.props.classes.formButton}
@@ -202,13 +204,19 @@ class Index extends Component {
 
   renderWhenMissing() {
     return (
-      <div style={{ marginLeft: 20 }}>
-          <img style={{ margin: "20px", width:"100px" }} src="/img/oak.png" />
-          <p>Source: Argentinian Redwood</p>
-          <p>Sustainability factor: Argentinian Redwood</p>
-          <p>Grower: EOS Forestry Pty Ltd</p>
-          <p>Auditor: Forest Green</p>
-      </div>
+        <div style={{paddingLeft: 20}} className="intro">
+            <h4>Things to know</h4>
+              <div style={{ marginLeft: 20 }} className="things">
+                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
+                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
+                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
+              </div>
+            <h4>Read the map</h4>
+            <div style={{textAlign: 'center'}}>
+                <h4 className="yellow" style={{display: 'inline-block', margin: '0 15px'}}>Legal Logging</h4>
+                <h4 className="green" style={{display: 'inline-block', margin: '0 15px'}}>Forest Areas</h4>
+            </div>
+        </div>
     );
   }
 
@@ -237,9 +245,9 @@ class Index extends Component {
           />
         <AppBar position="fixed" color="default">
           <Toolbar>
-            <Typography variant="title" color="inherit">
-             Journee
-            </Typography>
+              <a href="/"><img src="img/logo.svg" className="logo" /></a>
+            <Typography variant="title" color="inherit">Journee</Typography>
+            <Typography className="slogan">Trust in timber</Typography>
           </Toolbar>
         </AppBar>
         <Grid container style={{height: '100%'}}>
@@ -249,7 +257,7 @@ class Index extends Component {
                   viewport={viewport}
                 />
             </Grid>
-            <Grid item xs={12} sm={4} style={{height: '100%', overflow: 'auto', paddingTop: 64}}>
+            <Grid item xs={12} sm={4} style={{height: '100%', overflow: 'auto', paddingTop: 64}} className="sidebar">
                 {/** Actions */}
                 {this.renderCtas()}
 
@@ -272,19 +280,33 @@ class Index extends Component {
                       />
 
                       {/** Body items */}
-                      <Timeline style={{marginTop: -20, marginBottom: -20}}>
+                      <Timeline
+                          style={{marginTop: -20, marginBottom: -20}} lineStyle={{background: "#ffd000", width: 3}}>
                           {
                             _.map(_.slice(treeTable, 1, -1), (row, k) => (
                               <TimelineEvent
                                   key={k}
                                   onClick={() => this.handleTreeRowClick(row)}
                                   style={{fontSize: '12px'}}
-                                  className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68"
+                                  className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68 timeline-item"
                                   title={row.dna}
-                                  createdAt={new Date(row.timestamp*1000).toString()}
-                                  icon={<i className="material-icons md-18">textsms</i>}>
-                                  <Collapse in={this.state.activeTreeRowId === row.prim_key} collapsedHeight="5px">
-                                      <Typography style={{color: 'black'}}>{row.message}</Typography>
+                                  titleStyle={{color: "#4B92E2", paddingTop: 8}}
+                                  contentStyle={{ width: 'auto', backgroundColor: "#04394c", color: "#fff", borderRadius: 5, boxShadow: '0 2px 4px 0 rgba(0,0,0,0.5)', cursor: 'pointer'}}
+                                  bubbleStyle={{backgroundColor: "#ffd000", borderColor: '#ffd000'}}
+                                  icon={<i className="material-icons md-18" style={{color: '#ffd000'}}>textsms</i>}>
+                                  <Collapse in={this.state.activeTreeRowId === row.prim_key} collapsedHeight="40px">
+                                      <Typography className="status">{row.message}</Typography>
+                                      <Typography className="location">Location</Typography>
+                                      <div style={{marginTop: 15}}>
+                                          <img src="img/chair.png" width={175} style={{float: 'left', marginRight: '1em', marginBottom: '0.5em'}}/>
+                                          <div>
+                                              <Typography>
+                                                  some<br />
+                                                  extra<br />
+                                                  data
+                                              </Typography>
+                                          </div>
+                                      </div>
                                   </Collapse>
                               </TimelineEvent>
                             ))

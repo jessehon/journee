@@ -3,9 +3,171 @@ body {
 }
 
 .MuiAppBar-colorDefault-12 {
-  background-color: #00394D !important;
+  background-color: #04394c !important;
 }
 
 textarea {
     color: #666 !important;
+}
+
+.MuiPaper-root-15 {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5) !important;
+    background-color: #04394C !important;;
+    border-radius: 5px !important;;
+}
+
+.timeline-item {
+}
+.timeline-item .location {
+    color: #4B92E2;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 19px;
+}
+
+.timeline-item .status {
+    color: #E70883;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 19px;
+}
+
+.sidebar {
+    background: #052d3c;
+    color: #4b92e2;
+}
+
+h2 {
+    color: #fecf2f !important;
+}
+
+.more, .more p {
+    color: #4B92E2;
+}
+
+header {
+    text-align: center;
+}
+header h2.MuiTypography-title-52 {
+    color: #FECF2F;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 2.06px;
+    line-height: 32px;
+    text-transform: uppercase;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+header .slogan {
+    color: #E70883;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 2.06px;
+    line-height: 26px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.home {}
+.home h1 {
+    color: #FECF2F;
+    font-family: Roboto;
+    font-size: 64px;
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 84px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+.home h2 {
+    color: #E70883 !important;
+    font-family: Roboto;
+    font-size: 48px;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 63px;
+    text-align: right;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+.home h3 {
+    color: #4B92E2;
+    font-family: Roboto;
+    font-size: 64px;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 2.06px;
+    line-height: 84px;
+    margin-bottom: 0;
+    margin-top: 0.2em;
+}
+
+.yellow {
+    color: #FECF2F !important;
+}
+
+.blue {
+    color: #4b92e2 !important;
+}
+
+.green {
+    color: #78BA43 !important;
+}
+
+.things {
+    margin-top: 2em;
+}
+.things h3 {
+    color: #E70883;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 2.06px;
+    line-height: 32px;
+    text-align: center;
+    margin-bottom: 3em;
+}
+
+.intro h4 {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 19px;
+    text-transform: uppercase;
+}
+.intro h4:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4B92E2;
+    margin-right: 10px;
+    margin-bottom: -5px;
+}
+.intro .yellow, .intro .green {
+    font-style: italic;
+}
+.intro .yellow:before {
+    background-color: #FECF2F;
+    border-radius: 0;
+}
+.intro .green:before {
+    background-color: #78BA43;
+    border-radius: 0;
 }

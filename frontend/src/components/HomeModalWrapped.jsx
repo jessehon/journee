@@ -14,8 +14,8 @@ function getModalStyle() {
     const top = 50;
     const left = 50;
 
-    const width = 1600;
-    const height = 800;
+    const width = 1200;
+    const height = 600;
 
     return {
         position: 'absolute',
@@ -27,6 +27,7 @@ function getModalStyle() {
         height: height,
         background: '#fff',
         padding: 20,
+        backgroundColor: '#04394C',
         //transform: `translate(-${top}%, -${left}%)`,
     };
 }
@@ -48,8 +49,15 @@ class HomeModal extends React.Component {
 
         return (
             <Modal onClose={this.handleClose} {...other}>
-                <div style={getModalStyle()}>
-                    Some graphs and numbers
+                <div style={getModalStyle()} className="home">
+                    <img src="img/logo_big.svg" style={{float: 'left', marginRight: 30, marginTop: 30}} />
+                    <div>
+                        <h1>Journee</h1>
+                        <h2>Trust in timber</h2>
+                        <h3>Something</h3>
+                        <h3>Something</h3>
+                        <h3>Something</h3>
+                    </div>
                 </div>
             </Modal>
         );
