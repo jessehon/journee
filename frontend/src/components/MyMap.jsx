@@ -7,8 +7,6 @@ import * as _ from 'lodash';
 // Don't forget to import the CSS
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
-const route = require('../fixtures/route.json');
-
 const lineLayout = {
     'line-cap': 'round',
     'line-join': 'round'
