@@ -313,7 +313,7 @@ class Index extends Component {
                                       <Typography className="status">{this.getRowData(row).description}</Typography>
                                       <Typography className="location">{this.getRowData(row).location_name}</Typography>
                                       <div style={{marginTop: 15}}>
-                                          <img src="img/chair.png" width={175} style={{float: 'left', marginRight: '1em', marginBottom: '0.5em'}}/>
+                                          <img src={this.findSupplierProfileByName(row.user).image_url} width={175} style={{float: 'left', marginRight: '1em', marginBottom: '0.5em'}}/>
                                           <div>
                                             <Typography component="p">
                                                 Supplier: <br />{this.findSupplierProfileByName(row.user).title}<br />
