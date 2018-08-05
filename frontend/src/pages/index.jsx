@@ -217,9 +217,9 @@ class Index extends Component {
         <div style={{paddingLeft: 20}} className="intro">
             <h4>Things to know</h4>
               <div style={{ marginLeft: 20 }} className="things">
-                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
-                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
-                  <h3><span className="yellow">TIMBER</span> IS ONE OF THE<br />MOST <span className="blue">SUSTAINABLE</span><br />BUILDING MATERIALS</h3>
+                  <h3><span className="yellow">TRACABILITY</span></h3>
+                  <h3>TRANSPARENCY</h3>
+                  <h3><span className="blue">TRUSTWORTHY</span></h3>
               </div>
             <h4>Read the map</h4>
             <div style={{textAlign: 'center'}}>
