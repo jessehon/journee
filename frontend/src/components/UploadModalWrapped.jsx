@@ -33,7 +33,12 @@ class UploadModal extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            value: 'a13r98has2r'
+            value: 'ACAAGATGCCATTGTCCCCCGGCCTCCTGCTGCTGCTGCTCTCCGGGGCCACGGCCACCGCTGCCCTGCC' +
+            'CCTGGAGGGTGGCCCCACCGGCCGAGACAGCGAGCATATGCAGGAAGCGGCAGGAATAAGGAAAAGCAGC' +
+            'CTCCTGACTTTCCTCGCTTGGTGGTTTGAGTGGACCTCCCAGGCCAGTGCCGGGCCCCTCATAGGAGAGG' +
+            'AAGCTCGGGAGGTGGCCAGGCGGCAGGAAGGCGCACCCCCCCAGCAATCCGCGCGCCGGGACAGAATGCC' +
+            'CTGCAGGAACTTCTTCTGGAAGACCTTCTCCTCCTGCAAATAAAACCTCACCCATGAATGCTCACGCAAG' +
+            'TTTAATTACAGACCTGAA1'
         };
 
         this.handleUpload = this.handleUpload.bind(this);
@@ -52,7 +57,8 @@ class UploadModal extends React.Component {
         event.preventDefault();
 
         if (event.target.dna) {
-            this.props.onClose(event.target.dna.value);
+            //this.props.onClose(event.target.dna.value);
+            this.props.onClose('a13r98has2r');
         }
     }
 
