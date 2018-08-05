@@ -41,6 +41,10 @@ const TreeDestinationCard = (props) => {
                         <Typography component="p">
                             {supplierProfile.description}
                         </Typography>
+                        <Typography component="p">
+                        <img src="/img/text.png" width={180}  style={{marginTop: 20, marginLeft: 24, marginRight: 24}}/>
+                        </Typography>
+
                     </div>
                 </div>
             </CardContent>
