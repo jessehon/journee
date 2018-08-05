@@ -8,6 +8,7 @@
     "eosjs": "^15.0.3",
     "lodash": "^4.17.10",
     "mapbox-gl": "^0.47.0",
+    "moment": "^2.22.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-event-timeline": "^1.5.4",
