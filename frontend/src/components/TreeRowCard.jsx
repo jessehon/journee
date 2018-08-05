@@ -35,7 +35,7 @@ const TreeRowCard = (props) => {
                     {treeProfile.description}
                 </Typography>
                 <div style={{marginTop: 15}} className="more">
-                    <img src="img/chair.png" width={175} style={{float: 'left', marginLeft: -24, marginRight: 24}}/>
+                    <img src={treeProfile.image_url} width={175} style={{float: 'left', marginLeft: -24, marginRight: 24}}/>
                     <div>
                         <Typography component="p">
                             {treeRowData.description}
