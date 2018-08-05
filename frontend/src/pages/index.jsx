@@ -11,6 +11,7 @@ import MyMap from '../components/MyMap';
 import QrModalWrapped from '../components/QrModalWrapped';
 import UploadModalWrapped from '../components/UploadModalWrapped';
 import HomeModalWrapped from '../components/HomeModalWrapped';
+import TreeTitleCard from '../components/TreeTitleCard';
 import TreeRowCard from '../components/TreeRowCard';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -287,24 +288,22 @@ class Index extends Component {
                 {treeTable && treeTable.length > 0 && (
                   <div>
                       {/** First item */}
-                      <TreeRowCard
-                        onClick={() => this.handleTreeRowClick(treeTable[0])}
-                        activeTreeRowId={this.state.activeTreeRowId}
+                      <TreeTitleCard
                         classes={classes}
-                        treeRow={treeTable[0]}
+                        treeProfile={this.findTreeProfileByDna(treeTable[0].dna)}
                       />
 
                       {/** Body items */}
                       <Timeline
                           style={{marginTop: -20, marginBottom: -20}} lineStyle={{background: "#ffd000", width: 3}}>
                           {
-                            _.map(_.slice(treeTable, 1, -1), (row, k) => (
+                            _.map(_.slice(treeTable, 0, -1), (row, k) => (
                               <TimelineEvent
                                   key={k}
                                   onClick={() => this.handleTreeRowClick(row)}
                                   style={{fontSize: '12px'}}
                                   className="MuiTypography-body1-55 MuiTypography-colorTextSecondary-68 timeline-item"
-                                  title={row.from_now}
+                                  title={this.getRowData(row).from_now}
                                   titleStyle={{color: "#4B92E2", paddingTop: 8}}
                                   contentStyle={{ width: 'auto', backgroundColor: "#04394c", color: "#fff", borderRadius: 5, boxShadow: '0 2px 4px 0 rgba(0,0,0,0.5)', cursor: 'pointer'}}
                                   bubbleStyle={{backgroundColor: "#ffd000", borderColor: '#ffd000'}}
@@ -334,6 +333,7 @@ class Index extends Component {
                       {
                         treeTable.length >= 2 && (
                           <TreeRowCard
+                            title={`Destination`}
                             onClick={() => this.handleTreeRowClick(treeTable[treeTable.length - 1])}
                             activeTreeRowId={this.state.activeTreeRowId}
                             classes={classes}
