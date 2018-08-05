@@ -40,7 +40,8 @@ class QrModal extends React.Component {
 
     handleScan(data){
         if (data) {
-            this.props.onClose(data);
+            this.props.onClose('a13r98has2r');
+            //this.props.onClose(data);
             //this.setState({
             //    result: data,
             //})

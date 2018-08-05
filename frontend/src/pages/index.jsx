@@ -81,7 +81,10 @@ class Index extends Component {
 
   handleQrModalClose = code => {
       if (code !== null) {
-          alert(code);
+          this.search({
+              dna: _.truncate(code, {length: 11, omission: ''})
+          });
+          //alert(code);
       }
       this.setState({ qrModalOpen: false });
   };
