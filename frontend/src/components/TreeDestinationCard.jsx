@@ -16,7 +16,7 @@ const findSupplierProfileByName = (name) => {
   return _.find(profiles.supplier_profiles, { name });
 }
 
-const TreeRowCard = (props) => {
+const TreeDestinationCard = (props) => {
   const { classes, treeRow, onClick, activeTreeRowId, title } = props;
   const treeProfile = findTreeProfileByDna(treeRow.dna);
   const treeRowData = JSON.parse(treeRow.message);
@@ -29,20 +29,14 @@ const TreeRowCard = (props) => {
         <Collapse in={activeTreeRowId === treeRow.prim_key} collapsedHeight="75px">
             <CardContent>
                 <Typography variant="headline" component="h2">
-                    {title || treeProfile.title}
+                    {treeRowData.description}
                 </Typography>
                 <Typography style={{fontSize: 12}} color="textSecondary" gutterBottom>
-                    {treeProfile.description}
+                    {treeRowData.location_name}
                 </Typography>
                 <div style={{marginTop: 15}} className="more">
                     <img src={treeProfile.image_url} width={175} style={{float: 'left', marginLeft: -24, marginRight: 24}}/>
                     <div>
-                        <Typography component="p">
-                            {treeRowData.description}
-                        </Typography>
-                        <Typography component="p">
-                            {treeRowData.location_name}
-                        </Typography>
                         <Typography component="p">
                             DNA: ****************
                         </Typography>
@@ -63,4 +57,4 @@ const TreeRowCard = (props) => {
   );
 };
 
-export default TreeRowCard;
+export default TreeDestinationCard;
