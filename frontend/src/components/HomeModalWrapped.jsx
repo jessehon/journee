@@ -26,7 +26,7 @@ function getModalStyle() {
         width: width,
         height: height,
         background: '#fff',
-        padding: 20,
+        padding: '30px 60px',
         backgroundColor: '#04394C',
         //transform: `translate(-${top}%, -${left}%)`,
     };
@@ -50,13 +50,14 @@ class HomeModal extends React.Component {
         return (
             <Modal onClose={this.handleClose} {...other}>
                 <div style={getModalStyle()} className="home">
-                    <img src="img/logo_big.svg" style={{float: 'left', marginRight: 30, marginTop: 30}} />
+                    <img src="img/logo_big.svg" style={{float: 'left', marginRight: 30, marginTop: 30}} width={500} />
                     <div>
                         <h1>Journee</h1>
                         <h2>Trust in timber</h2>
-                        <h3>Something</h3>
-                        <h3>Something</h3>
-                        <h3>Something</h3>
+                        <h3><span className="blue">$227B</span> GLOBAL TIMBER<br /><span className="blue">$30B</span> ILLEGAL</h3>
+                        <h3><span className="blue">TIMBER</span> IS ONE OF THE MOST<br /><span className="pink">SUSTAINABLE BUILDING</span> MATERIALS</h3>
+                        <h3><span className="pink">AUSTRALIA</span>, EU, <span className="blue">USA</span> & CANADA REQUIRE VERIFICATION</h3>
+                        <h3><span className="pink">DNA TIMBER <strong>VERIFIED</strong></span> ON <span className="blue">EOS</span> BLOCKCHAIN TO IMPROVE<br />ON CERTIFICATIONS LIKE DOUBLEHELIX AND <span className="blue">FSC</span></h3>
                     </div>
                 </div>
             </Modal>
