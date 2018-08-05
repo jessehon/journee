@@ -17,7 +17,7 @@ import {Timeline, TimelineEvent} from 'react-event-timeline';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Collapse from '@material-ui/core/Collapse';
 
-const profiles = require('../data/data.json');
+const profiles = require('../data/profiles.json');
 
 // set up styling classes using material-ui "withStyles"
 const styles = theme => ({
