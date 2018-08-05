@@ -17,7 +17,7 @@ const findSupplierProfileByName = (name) => {
 }
 
 const TreeRowCard = (props) => {
-  const { classes, treeRow, onClick, activeTreeRowId } = props;
+  const { classes, treeRow, onClick, activeTreeRowId, title } = props;
   const treeProfile = findTreeProfileByDna(treeRow.dna);
   const treeRowData = JSON.parse(treeRow.message);
 
@@ -29,7 +29,7 @@ const TreeRowCard = (props) => {
         <Collapse in={activeTreeRowId === treeRow.prim_key} collapsedHeight="75px">
             <CardContent>
                 <Typography variant="headline" component="h2">
-                    {treeProfile.title}
+                    {title || treeProfile.title}
                 </Typography>
                 <Typography style={{fontSize: 12}} color="textSecondary" gutterBottom>
                     {treeProfile.description}
